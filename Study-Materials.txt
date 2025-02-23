@@ -1,0 +1,2 @@
+Asking Questions the Human Way: Scalable Question-Answer Generation from Text Corpus Paper --> https://arxiv.org/pdf/2002.00748
+https://github.com/bangliu/ACS-QG
