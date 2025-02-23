@@ -1,2 +1,5 @@
 Asking Questions the Human Way: Scalable Question-Answer Generation from Text Corpus Paper --> https://arxiv.org/pdf/2002.00748
 https://github.com/bangliu/ACS-QG
+
+Title and Summarization T5 
+https://medium.com/nlplanet/a-full-guide-to-finetuning-t5-for-text2text-and-building-a-demo-with-streamlit-c72009631887
