@@ -72,3 +72,18 @@ predicted_labels = label_encoder.inverse_transform(predicted_classes)
 print(f"Predictions: {predicted_labels}")
 
 
+# Fine Tuning 
+
+def make_model():
+    model = models.Sequential([
+        layers.Input(shape=(max_len,)),
+        layers.Embedding(input_dim=max_tokens, output_dim=128),
+        layers.Bidirectional(layers.LSTM(64)),
+        layers.Dense(128, activation="relu"),
+        layers.Dropout(0.4),
+        layers.Dense(4, activation="softmax")
+    ])
+    return model
+
+model = make_model()
+model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
