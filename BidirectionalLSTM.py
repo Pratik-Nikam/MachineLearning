@@ -206,3 +206,72 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
 plt.show()
+
+
+# raw prediction 
+
+import numpy as np
+
+def predict_text(text, model, vectorizer, label_encoder, max_len=200):
+    """
+    Predict the label for a given text input using the trained model.
+    
+    Args:
+        text (str or list): Single text string or list of text strings to predict.
+        model: Trained Keras model.
+        vectorizer: Trained TextVectorization layer used during training.
+        label_encoder: Trained LabelEncoder used to encode/decode labels.
+        max_len (int): Maximum sequence length (default=200, matches training).
+    
+    Returns:
+        str or list: Predicted label(s) as text (e.g., 'tech issue').
+    """
+    # Handle single string or list of strings
+    is_single_input = isinstance(text, str)
+    texts = [text] if is_single_input else text
+    
+    # Preprocess the text: tokenize and pad
+    tokenized_texts = vectorizer(np.array(texts)).numpy()
+    
+    # Get model predictions (probabilities)
+    predictions = model.predict(tokenized_texts, verbose=0)
+    
+    # Convert probabilities to integer class indices
+    predicted_indices = np.argmax(predictions, axis=1)
+    
+    # Decode integer indices back to text labels
+    predicted_labels = label_encoder.inverse_transform(predicted_indices)
+    
+    # Return single label or list based on input type
+    return predicted_labels[0] if is_single_input else predicted_labels.tolist()
+
+# --- Example Usage ---
+# Assuming you have these from training
+# model: Trained model from make_model()
+# vectorizer: Trained TextVectorization layer
+# label_encoder: Trained LabelEncoder
+
+# Example new texts
+new_texts = [
+    "user needs help with software glitch",
+    "training session required for new staff",
+    "bypass this step for now"
+]
+
+# Single text prediction
+single_prediction = predict_text(
+    "there’s a problem with the server", 
+    model, 
+    vectorizer, 
+    label_encoder
+)
+print("Single Prediction:", single_prediction)
+
+# Multiple text predictions
+multi_predictions = predict_text(
+    new_texts, 
+    model, 
+    vectorizer, 
+    label_encoder
+)
+print("Multiple Predictions:", multi_predictions)
